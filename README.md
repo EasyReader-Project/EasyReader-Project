@@ -1,46 +1,46 @@
-# 📚 Reader Project · 跨平台阅读器
+# 📚 EasyReader Project · 为你定制的跨平台阅读器
 
-> **设计原则**：契约先行 | 分层隔离 | 原生体验 | 数据自主
+> **自由定制 · 数据自主 · 原生流畅**
 
-Reader Project 是一款优先满足个人阅读需求、以开源形式发布的阅读器软件。项目采用 **“三仓两端”** 的架构体系，旨在保证 Windows 与 Android 端拥有完全一致的数据定位能力和流畅的原生交互体验。
-
----
-
-## 🧭 项目仓库导航
-
-本项目由三个独立仓库协同维护：
-
-| 仓库 | 职责 | 技术栈 |
-| :--- | :--- | :--- |
-| **[EasyReader-Specs](https://github.com/EasyReader-Project/EasyReader-Specs)** | **公共契约仓库**（唯一的真理来源）<br>存放 SQLite 建表语句、定位协议 JSON Schema、共享测试用例 | 纯文档 / JSON / SQL |
-| **[EasyReader-Specs](https://github.com/EasyReader-Project/EasyReader-Win)** | **Windows 桌面端**<br>实现 UI 渲染、本地文件监听、业务逻辑调度 | Electron + Vue3 + TypeScript |
-| **[EasyReader-Specs](https://github.com/EasyReader-Project/EasyReader-Android)** | **Android 移动端**<br>实现触控交互、后台同步、原生性能优化 | Kotlin + Jetpack Compose |
+EasyReader Project 是一款面向深度阅读者的开源阅读软件。我们不替你决定“该怎么读书”，而是提供一套灵活、干净、可自由组合的工具，让你在 Windows 和 Android 设备上搭建完全属于自己的阅读环境。
 
 ---
 
-## 🏗️ 核心架构设计（共性契约）
+## ✨ 为什么选择 EasyReader Project？
 
-### 1. 同心圆分层架构
-所有端严格遵循 **“外-中-内”** 三层隔离，依赖方向由外向内：
-- **外层（UI）**：只负责渲染和手势捕获，禁止写 SQL 或文件路径。
-- **中层（领域/用例）**：纯业务逻辑（如翻页、同步），零平台依赖。
-- **内层（仓储/IO）**：唯一接触 SQLite、文件系统和网络的地方。
+### 🎨 真正的“高自由度”定制
+- **翻页手势随心定义**：单击、双击、长按、滑动 —— 左右上下，每个区域的动作都可由你独立映射。
+- **渲染引擎自由切换**：同一本 EPUB，你可以选用不同的渲染内核（WebView / MiniBlink），获得不同的排版效果和兼容性。
+- **主题与样式深度覆盖**：支持导入自定义 CSS，彻底覆盖书籍原有样式，也可以一键切换深色、护眼或墨水屏模式。
+- **全局字体替换**：无视书籍内嵌限制，强制使用你喜欢的字体。
 
-### 2. 三级降级定位协议（进度同步的灵魂）
-进度定位信息统一以 **JSON 字符串** 存入 SQLite，解析优先级如下：
-1. **标准精确定位**（EPUB 用 CFI，PDF 用页码）—— 最准。
-2. **语义降级定位**（章节索引 + 字符偏移）—— 跨引擎兼容。
-3. **全局百分比**（0~100）—— 最后保底，永不崩溃。
+### 📱 跨平台一致体验
+- Windows 桌面端与 Android 手机端共享同一套进度和笔记数据，无缝接力阅读。
+- 两端交互逻辑保持一致，切换设备无需重新适应。
 
-### 3. 数据同步与冲突仲裁
-- **书籍文件**：交由 **Syncthing**（P2P 局域网同步）处理，应用只做监听。
-- **进度/笔记**：通过 **WebDAV** 协议上传/下载 JSON 备份。
-- **冲突铁律**：**Last-Write-Wins**，严格比对各端记录的毫秒级时间戳，谁大听谁的。
+### 🔒 数据完全由你掌控
+- **书籍文件** 通过 Syncthing 进行 P2P 同步，不经过任何第三方服务器。
+- **阅读进度与笔记** 支持备份到任意 WebDAV 服务（如自建 NAS、Nextcloud 等），数据永远在你手中。
+- 智能进度保存机制，确保合上书本后，无论何时打开都能精准回到上次位置。
+
+### 🚀 纯净、快速、无干扰
+- 专注于阅读本身，没有社交、广告或推荐算法。
+- 原生性能优化，大体积 PDF 和 EPUB 也能流畅翻页。
 
 ---
 
-## 🛠️ 本地开发环境准备（通用）
+## 🧭 项目仓库
 
-1. **Git 克隆与子模块同步**（如果使用 Submodule 方式）：
-   ```bash
-   git clone --recursive [主仓库地址]
+本项目由三个独立仓库协同管理：
+
+| 仓库 | 作用 |
+| :--- | :--- |
+| [EasyReader-Specs](https://github.com/EasyReader-Project/EasyReader-Specs) | 公共规范与测试用例（供开发者参考） |
+| [EasyReader-Win](https://github.com/EasyReader-Project/EasyReader-Win) | Windows 桌面端源码 |
+| [EasyReader-Android](https://github.com/EasyReader-Project/EasyReader-Android) | Android 移动端源码 |
+
+---
+
+## 🖥️ 快速开始（开发者）
+
+如果你想本地构建或参与开发：
